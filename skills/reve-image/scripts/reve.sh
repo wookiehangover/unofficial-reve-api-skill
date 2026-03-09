@@ -20,6 +20,7 @@ INPUTS=()
 UPSCALE=""
 TTS=""
 FAST=""
+EFFECT=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -29,6 +30,11 @@ while [[ $# -gt 0 ]]; do
     --upscale) UPSCALE="$2"; shift 2 ;;
     --tts)    TTS="$2"; shift 2 ;;
     --fast)   FAST="1"; shift ;;
+    --effect) EFFECT="$2"; shift 2 ;;
+    --effects) 
+      curl -s "https://api.reve.com/v1/image/effect" \
+        -H "Authorization: Bearer $REVE_API_KEY" | jq -r '.effects[] | "\(.name) — \(.description) [\(.category)]"'
+      exit 0 ;;
     *)
       if [[ -z "$PROMPT" ]]; then
         PROMPT="$1"
@@ -41,10 +47,15 @@ done
 [[ -z "$OUTPUT" ]] && OUTPUT="./reve_$(date +%s).png"
 
 # Build postprocessing array
-PP=""
+PP="[]"
 if [[ -n "$UPSCALE" ]]; then
-  PP="[{\"process\":\"upscale\",\"upscale_factor\":$UPSCALE}]"
+  PP=$(echo "$PP" | jq --argjson f "$UPSCALE" '. + [{"process":"upscale","upscale_factor":$f}]')
 fi
+if [[ -n "$EFFECT" ]]; then
+  PP=$(echo "$PP" | jq --arg e "$EFFECT" '. + [{"process":"effect","effect_name":$e}]')
+fi
+# Only pass PP if we have entries
+[[ "$PP" == "[]" ]] && PP=""
 
 case "$ACTION" in
   create)

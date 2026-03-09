@@ -22,6 +22,8 @@ REVE_API_KEY="$REVE_API_KEY" bash SKILL_DIR/scripts/reve.sh create "a sunset ove
 **Options:**
 - `--aspect`: `16:9`, `9:16`, `3:2` (default), `2:3`, `4:3`, `3:4`, `1:1`
 - `--upscale 2|3|4`: Upscale after generation (costs extra credits)
+- `--effect NAME`: Apply a postprocessing effect (e.g. `risograph`, `gameboy`, `jazz_album`)
+- `--effects`: List all available effects and exit
 - `--tts N`: Test-time scaling 1-15 (higher = more effort, costs extra credits)
 - `--output path.png`: Output path (defaults to `./reve_TIMESTAMP.png`)
 
@@ -53,6 +55,7 @@ REVE_API_KEY="$REVE_API_KEY" bash SKILL_DIR/scripts/reve.sh remix "combine into 
 
 - Max prompt length: 2560 characters
 - Prompts are automatically enhanced by the model
-- Postprocessing options: upscale, remove_background, fit_image, effects
+- Postprocessing: upscale, remove_background, fit_image, effects
+- Effects categories: textures (risograph, gameboy, charcoal, engraving, stippling, dither, grain...), light (bokeh, tilt_shift, lens_flare, halation, sun_rays...), color (jazz_album, duotone, neon_night, drama_cine, grit_mono...)
 - Credits used and remaining are shown after each request
 - Requires `curl`, `jq`, and `base64` (standard on most systems)
