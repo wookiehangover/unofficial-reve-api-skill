@@ -5,7 +5,7 @@ An [agent skill](https://skills.sh) for generating, editing, and remixing images
 ## Install
 
 ```bash
-npx skills add sambreed/unofficial-reve-api-skill
+npx skills add wookiehangover/unofficial-reve-api-skill
 ```
 
 ## What it does
